@@ -1,0 +1,659 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+body{
+    background:#f2f2f7;
+    color:#1c1c1e;
+    min-height:100vh;
+}
+
+.app{
+    width:100%;
+    max-width:700px;
+    margin:auto;
+    padding:18px 12px 100px;
+}
+
+h1{
+    text-align:center;
+    margin:15px 0 8px;
+    font-size:32px;
+    font-weight:700;
+}
+
+h2{
+    margin-bottom:6px;
+}
+
+.subtitol{
+    text-align:center;
+    color:#6e6e73;
+    margin-bottom:24px;
+}
+
+
+/* ==========================
+   TARGETES
+========================== */
+
+.targeta,
+.targetaVehicle{
+
+    background:white;
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:16px;
+    box-shadow:0 8px 24px rgba(0,0,0,.08);
+
+}
+
+.targetaVehicle{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+
+}
+
+
+/* ==========================
+   VEHICLES
+========================== */
+
+.nomVehicle{
+
+    font-size:20px;
+    font-weight:700;
+
+}
+
+.matricula{
+
+    color:#6e6e73;
+    margin-top:4px;
+
+}
+
+.ultimKm{
+
+    margin-top:8px;
+    color:#0a84ff;
+    font-size:14px;
+
+}
+
+.accionsVehicle{
+
+    display:flex;
+    gap:6px;
+    flex-shrink:0;
+
+}
+
+
+/* ==========================
+   FORMULARIS
+========================== */
+
+label{
+
+    display:block;
+    margin:13px 0 7px;
+    color:#6e6e73;
+    font-size:15px;
+
+}
+
+input,
+select{
+
+    width:100%;
+    padding:14px;
+    border-radius:13px;
+    border:1px solid #d2d2d7;
+    background:white;
+    font-size:17px;
+
+}
+
+input[type="checkbox"]{
+
+    width:auto;
+
+}
+
+button{
+
+    border:0;
+    border-radius:14px;
+    padding:14px 18px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+    margin-top:14px;
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+.primari{
+
+    background:#0a84ff;
+    color:white;
+
+}
+
+.verd{
+
+    background:#34c759;
+    color:white;
+
+}
+
+.vermell{
+
+    background:#ff3b30;
+    color:white;
+
+}
+
+
+/* ==========================
+   BOTONS PETITS
+========================== */
+
+.petitEditar,
+.petitEliminar{
+
+    width:42px;
+    height:42px;
+    padding:0;
+    margin:0;
+
+}
+
+.petitEditar{
+
+    background:#e5f0ff;
+
+}
+
+.petitEliminar{
+
+    background:#ffe5e5;
+
+}
+
+.filaBotons{
+
+    display:flex;
+    gap:10px;
+
+}
+
+.filaBotons button{
+
+    flex:1;
+
+}
+
+
+/* ==========================
+   MODAL
+========================== */
+
+.modal{
+
+    position:fixed;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:15px;
+
+    background:rgba(0,0,0,.35);
+
+    backdrop-filter:blur(5px);
+
+    z-index:100;
+
+}
+
+.finestra{
+
+    width:100%;
+    max-width:430px;
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:22px;
+
+    max-height:90vh;
+    overflow:auto;
+
+}
+
+.ocult{
+
+    display:none !important;
+
+}
+
+
+/* ==========================
+   HISTORIAL
+========================== */
+
+#capcaleraVehicle{
+
+    padding:15px 18px;
+
+}
+
+#capcaleraVehicle p{
+
+    color:#6e6e73;
+
+}
+
+
+/* Targeta que conté la taula */
+
+.targeta:has(.taulaHistorial){
+
+    padding:8px;
+
+    overflow-x:auto;
+
+}
+
+
+/* Taula */
+
+.taulaHistorial{
+
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+
+    font-size:13px;
+
+}
+
+
+/* Columnes */
+
+.taulaHistorial th:nth-child(1),
+.taulaHistorial td:nth-child(1){
+
+    width:25%;
+
+}
+
+.taulaHistorial th:nth-child(2),
+.taulaHistorial td:nth-child(2){
+
+    width:19%;
+
+}
+
+.taulaHistorial th:nth-child(3),
+.taulaHistorial td:nth-child(3){
+
+    width:12%;
+
+}
+
+.taulaHistorial th:nth-child(4),
+.taulaHistorial td:nth-child(4){
+
+    width:12%;
+
+}
+
+.taulaHistorial th:nth-child(5),
+.taulaHistorial td:nth-child(5){
+
+    width:13%;
+
+}
+
+.taulaHistorial th:nth-child(6),
+.taulaHistorial td:nth-child(6){
+
+    width:19%;
+
+}
+
+
+/* Capçalera */
+
+.taulaHistorial th{
+
+    padding:9px 3px;
+
+    color:#6e6e73;
+
+    font-size:11px;
+
+    font-weight:600;
+
+    border-bottom:2px solid #ddd;
+
+    white-space:nowrap;
+
+}
+
+
+/* Files */
+
+.taulaHistorial td{
+
+    padding:10px 3px;
+
+    text-align:center;
+
+    border-bottom:1px solid #eee;
+
+    white-space:nowrap;
+
+}
+
+
+/* Data en dues línies */
+
+.taulaHistorial td:first-child{
+
+    text-align:left;
+
+}
+
+.taulaHistorial td:first-child strong{
+
+    display:block;
+
+    font-size:12px;
+
+}
+
+.taulaHistorial td:first-child small{
+
+    display:block;
+
+    color:#8e8e93;
+
+    font-size:10px;
+
+    margin-top:2px;
+
+}
+
+
+/* Files clicables */
+
+.taulaHistorial tbody tr{
+
+    cursor:pointer;
+
+}
+
+.taulaHistorial tbody tr:active{
+
+    background:#f2f2f7;
+
+}
+
+
+/* ==========================
+   DIPÒSIT
+========================== */
+
+.dipositPle{
+
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    background:#e8f8ed;
+
+    color:#16883b;
+
+    border-radius:9px;
+
+    padding:5px 7px;
+
+    font-size:10px;
+
+    font-weight:700;
+
+}
+
+.dipositParcial{
+
+    font-size:15px;
+
+    opacity:.65;
+
+}
+
+
+/* ==========================
+   TOTALS HISTORIAL
+========================== */
+
+.resumHistorial{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:0;
+
+}
+
+.resumHistorial div{
+
+    padding:12px 4px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.resumHistorial span{
+
+    display:block;
+
+    color:#6e6e73;
+
+    font-size:13px;
+
+    margin-bottom:4px;
+
+}
+
+.resumHistorial strong{
+
+    font-size:17px;
+
+}
+
+
+/* ==========================
+   DETALL REPOSTATGE
+========================== */
+
+.detallData{
+
+    padding-bottom:15px;
+    margin-bottom:10px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.detallData strong{
+
+    font-size:19px;
+
+}
+
+.detallData span{
+
+    display:block;
+
+    color:#6e6e73;
+
+    margin-top:3px;
+
+}
+
+.detallFila{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding:10px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.detallFila span{
+
+    color:#6e6e73;
+
+}
+
+.detallFila strong{
+
+    text-align:right;
+
+}
+
+.detallPle{
+
+    text-align:center;
+
+    margin-top:16px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    background:#e8f8ed;
+
+    color:#16883b;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================
+   RESUM
+========================== */
+
+.taulaResum{
+
+    width:100%;
+    border-collapse:collapse;
+
+}
+
+.taulaResum td{
+
+    padding:11px 4px;
+
+    border-bottom:1px solid #eee;
+
+}
+
+.taulaResum td:last-child{
+
+    text-align:right;
+
+    font-weight:700;
+
+}
+
+
+/* ==========================
+   MÒBIL
+========================== */
+
+@media(max-width:600px){
+
+    .app{
+
+        padding:12px 8px 90px;
+
+    }
+
+    h1{
+
+        font-size:28px;
+
+    }
+
+    .targeta{
+
+        border-radius:18px;
+
+    }
+
+    .taulaHistorial{
+
+        font-size:12px;
+
+    }
+
+    .taulaHistorial th{
+
+        font-size:10px;
+
+    }
+
+    .taulaHistorial td{
+
+        padding:9px 2px;
+
+    }
+
+    .taulaHistorial td:first-child strong{
+
+        font-size:11px;
+
+    }
+
+    .taulaHistorial td:first-child small{
+
+        font-size:9px;
+
+    }
+
+    .dipositPle{
+
+        font-size:9px;
+
+        padding:4px 5px;
+
+    }
+
+}

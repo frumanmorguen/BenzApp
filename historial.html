@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BenzApp - Historial</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="app">
+
+<button class="botoTornar" onclick="history.back()">
+    ← Tornar
+</button>
+
+<h1>📋 Historial</h1>
+
+<div id="capcaleraVehicle" class="targeta">
+</div>
+
+<div class="targeta">
+
+<table class="taulaHistorial">
+
+<thead>
+
+<tr>
+
+<th>Data</th>
+<th>Km</th>
+<th>L</th>
+<th>€</th>
+<th>C.</th>
+<th>⛽</th>
+
+</tr>
+
+</thead>
+
+<tbody id="cosHistorial">
+
+</tbody>
+
+</table>
+
+</div>
+
+<div id="totals" class="targeta">
+
+</div>
+
+<button
+class="primari"
+onclick="location.href='vehicle.html'">
+
+⬅ Tornar
+
+</button>
+
+</div>
+
+
+
+<!-- MODAL DETALL -->
+
+<div
+id="modalDetall"
+class="modal ocult">
+
+<div class="finestra">
+
+<h2>Repostatge</h2>
+
+<div id="detallRepostatge">
+
+</div>
+
+<button
+id="editar"
+class="primari">
+
+✏️ Editar
+
+</button>
+
+<button
+id="eliminar"
+class="vermell">
+
+🗑️ Eliminar
+
+</button>
+
+<button
+id="tancar"
+class="primari">
+
+Tancar
+
+</button>
+
+</div>
+
+</div>
+
+<script src="dades.js"></script>
+<script src="historial.js"></script>
+
+</body>
+
+</html>
