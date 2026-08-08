@@ -1,25 +1,24 @@
 // editar.js
+// BenzApp V2 - AMB VALIDACIÓ DE KM
 
 const params =
-new URLSearchParams(location.search);
+    new URLSearchParams(location.search);
 
 const id =
-Number(params.get("id"));
+    Number(params.get("id"));
 
 const r =
-obtenirRepostatges()
-.find(x=>x.id===id);
+    obtenirRepostatges()
+    .find(x => x.id === id);
 
-if(!r){
-
-    location.href="historial.html";
-
+if (!r) {
+    location.href = "historial.html";
 }
 
 const vehicle =
-obtenirVehicle(r.vehicleId);
+    obtenirVehicle(r.vehicleId);
 
-document.getElementById("dadesVehicle").innerHTML=`
+document.getElementById("dadesVehicle").innerHTML = `
 
 <h2>
 
@@ -37,135 +36,161 @@ ${vehicle.matricula}
 `;
 
 const data =
-document.getElementById("data");
+    document.getElementById("data");
 
 const hora =
-document.getElementById("hora");
+    document.getElementById("hora");
 
 const km =
-document.getElementById("km");
+    document.getElementById("km");
 
 const litres =
-document.getElementById("litres");
+    document.getElementById("litres");
 
 const preu =
-document.getElementById("preu");
+    document.getElementById("preu");
 
 const cost =
-document.getElementById("cost");
+    document.getElementById("cost");
 
 const combustible =
-document.getElementById("combustible");
+    document.getElementById("combustible");
 
 const ple =
-document.getElementById("ple");
+    document.getElementById("ple");
 
 const guardar =
-document.getElementById("guardar");
+    document.getElementById("guardar");
 
 
+function dataInput(ms) {
 
-function dataInput(ms){
+    let d = new Date(ms);
 
-    let d=new Date(ms);
-
-    return d.getFullYear()+"-"+
-    String(d.getMonth()+1).padStart(2,"0")+"-"+
-    String(d.getDate()).padStart(2,"0");
-
-}
-
-
-
-function horaInput(ms){
-
-    let d=new Date(ms);
-
-    return String(d.getHours()).padStart(2,"0")
-    +":"
-    +
-    String(d.getMinutes()).padStart(2,"0");
+    return d.getFullYear() + "-" +
+        String(d.getMonth() + 1).padStart(2, "0") + "-" +
+        String(d.getDate()).padStart(2, "0");
 
 }
 
 
+function horaInput(ms) {
 
-data.value=
-dataInput(r.data);
+    let d = new Date(ms);
 
-hora.value=
-horaInput(r.data);
+    return String(d.getHours()).padStart(2, "0") +
+        ":" +
+        String(d.getMinutes()).padStart(2, "0");
 
-km.value=
-r.km;
-
-litres.value=
-r.litres;
-
-preu.value=
-r.preu;
-
-cost.value=
-r.cost;
-
-combustible.value=
-r.combustible;
-
-ple.checked=
-r.ple;
+}
 
 
+data.value =
+    dataInput(r.data);
 
-function recalcularCost(){
+hora.value =
+    horaInput(r.data);
 
-    let l=
-    Number(litres.value);
+km.value =
+    r.km;
 
-    let p=
-    Number(preu.value);
+litres.value =
+    r.litres;
 
-    if(l>0 && p>0){
+preu.value =
+    r.preu;
 
-        cost.value=
-        (l*p).toFixed(2);
+cost.value =
+    r.cost;
+
+combustible.value =
+    r.combustible;
+
+ple.checked =
+    r.ple;
+
+
+function recalcularCost() {
+
+    let l =
+        Number(litres.value);
+
+    let p =
+        Number(preu.value);
+
+    if (l > 0 && p > 0) {
+
+        cost.value =
+            (l * p).toFixed(2);
 
     }
 
 }
 
 
+function recalcularPreu() {
 
-function recalcularPreu(){
+    let l =
+        Number(litres.value);
 
-    let l=
-    Number(litres.value);
+    let c =
+        Number(cost.value);
 
-    let c=
-    Number(cost.value);
+    if (l > 0 && c > 0) {
 
-    if(l>0 && c>0){
-
-        preu.value=
-        (c/l).toFixed(3);
+        preu.value =
+            (c / l).toFixed(3);
 
     }
 
 }
 
 
+litres.oninput =
+    recalcularCost;
 
-litres.oninput=
-recalcularCost;
+preu.oninput =
+    recalcularCost;
 
-preu.oninput=
-recalcularCost;
-
-cost.oninput=
-recalcularPreu;
-
+cost.oninput =
+    recalcularPreu;
 
 
-guardar.onclick=function(){
+guardar.onclick = function () {
+
+    // ==========================
+    // VALIDACIÓ: KM NO BAIXIN
+    // (excloent el mateix repostatge)
+    // ==========================
+
+    const kmNum = Number(km.value);
+    const repostatgesExistents = obtenirRepostatgesVehicle(r.vehicleId)
+        .filter(x => x.id !== id)
+        .sort((a, b) => a.data - b.data);
+
+    if (repostatgesExistents.length > 0) {
+        const ultim = repostatgesExistents[repostatgesExistents.length - 1];
+        if (kmNum < Number(ultim.km)) {
+            alert(`Els quilòmetres no poden ser inferiors a l'últim registre (${ultim.km} km).`);
+            return;
+        }
+        if (kmNum === Number(ultim.km)) {
+            if (!confirm("Els quilòmetres són iguals a l'últim registre. Continuar?")) {
+                return;
+            }
+        }
+    }
+
+    // Camps imprescindibles
+    if (
+        data.value === "" ||
+        hora.value === "" ||
+        km.value === "" ||
+        litres.value === ""
+    ) {
+        alert("Completa tots els camps obligatoris.");
+        return;
+    }
 
     editarRepostatge(
 
@@ -173,33 +198,33 @@ guardar.onclick=function(){
 
         {
 
-            data:new Date(
+            data: new Date(
 
-                data.value+
-                "T"+
+                data.value +
+                "T" +
                 hora.value
 
             ).getTime(),
 
-            km:Number(km.value),
+            km: Number(km.value),
 
-            litres:Number(litres.value),
+            litres: Number(litres.value),
 
-            preu:Number(preu.value),
+            preu: Number(preu.value),
 
-            cost:Number(cost.value),
+            cost: Number(cost.value),
 
             combustible:
-            combustible.value,
+                combustible.value,
 
             ple:
-            ple.checked
+                ple.checked
 
         }
 
     );
 
-    location.href=
-    "historial.html";
+    location.href =
+        "historial.html";
 
 };

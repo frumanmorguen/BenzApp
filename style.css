@@ -278,6 +278,39 @@ h2{
 
 
 /* ==================================================
+   BOTÓ CONFIGURACIÓ (a la barra inferior) - MÉS VISIBLE
+================================================== */
+
+#botoConfiguracio {
+    background: var(--grisBoton);
+    color: var(--text);
+    font-size: 20px;
+    border: 1px solid var(--vora);
+    transition: all 0.2s ease;
+}
+
+#botoConfiguracio:hover {
+    background: var(--vora);
+    transform: scale(1.02);
+}
+
+#botoConfiguracio:active {
+    transform: scale(0.95);
+}
+
+/* En mode clar, que es vegi més */
+html:not([data-theme="dark"]) #botoConfiguracio {
+    background: #d9d9e0;
+    color: #1c1c1e;
+    border-color: #c0c0c6;
+}
+
+html:not([data-theme="dark"]) #botoConfiguracio:hover {
+    background: #c8c8ce;
+}
+
+
+/* ==================================================
    BOTONS VEHICLE
 ================================================== */
 
@@ -577,98 +610,225 @@ button:active{
 
 
 /* ==================================================
-   MATRÍCULA ESTIL REAL
+   MATRÍCULA EUROPEA - AMB RELIEU PLATEJAT
 ================================================== */
 
-.matriculaReal{
+.matriculaReal {
+    display: inline-flex;
+    align-items: stretch;
+    height: 48px;
+    width: 200px;
+    min-width: 200px;
+    max-width: 200px;
+    border: 2px solid #b0b0b0;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 
+        0 2px 4px rgba(0,0,0,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.8),
+        0 0 0 1px rgba(180,180,180,0.3);
+    position: relative;
+    flex-shrink: 0;
+}
 
-    display:inline-flex;
+/* Efecte de relleu */
+.matriculaReal::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(180deg, 
+            rgba(255,255,255,0.4) 0%,
+            rgba(200,200,200,0.1) 40%,
+            rgba(150,150,150,0.1) 60%,
+            rgba(100,100,100,0.2) 100%
+        );
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 3px;
+}
 
-    align-items:stretch;
+/* Efecte de llum a la vora superior */
+.matriculaReal::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    right: 2px;
+    height: 3px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), transparent);
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 2px;
+}
 
-    height:30px;
+.matriculaEU {
+    width: 28px;
+    min-width: 28px;
+    max-width: 28px;
+    background: #003399;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 2px 0;
+    position: relative;
+    z-index: 1;
+}
 
-    min-width:112px;
+.matriculaEU .pais {
+    font-size: 7px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.3px;
+    font-family: 'Arial', sans-serif;
+    text-transform: uppercase;
+    margin-top: 1px;
+}
 
-    border:
-        1px solid
-        #777;
+.matriculaEU svg {
+    display: block;
+}
 
-    border-radius:3px;
+.matriculaLletres {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    white-space: nowrap;
+    font-family: 'Arial Narrow', 'Arial', sans-serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+}
 
-    overflow:hidden;
+@media (max-width: 600px) {
+    .matriculaReal {
+        height: 36px;
+        width: 150px;
+        min-width: 150px;
+        max-width: 150px;
+        border-width: 1.5px;
+    }
+    .matriculaEU {
+        width: 22px;
+        min-width: 22px;
+        max-width: 22px;
+        padding: 1px 0;
+    }
+    .matriculaEU .pais {
+        font-size: 5.5px;
+    }
+    .matriculaLletres {
+        font-size: 22px;
+        letter-spacing: 2px;
+        padding: 0 4px;
+    }
+}
 
-    background:#fff;
+html[data-theme="dark"] .matriculaReal {
+    border-color: #888;
+    box-shadow: 
+        0 2px 8px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
 
-    color:#111;
+html[data-theme="dark"] .matriculaLletres {
+    background: #ffffff;
+    color: #1a1a1a;
+}
 
-    box-shadow:
-        0 1px 2px
-        rgba(0,0,0,.2);
+html[data-theme="dark"] .matriculaEU {
+    background: #003399;
+}
 
+html[data-theme="dark"] .matriculaEU .pais {
+    color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    html[data-theme="auto"] .matriculaLletres {
+        background: #ffffff;
+        color: #1a1a1a;
+    }
+    html[data-theme="auto"] .matriculaEU {
+        background: #003399;
+    }
+    html[data-theme="auto"] .matriculaEU .pais {
+        color: #ffffff;
+    }
 }
 
 
-.matriculaCAT{
+/* ==================================================
+   BOTÓ EXPORTAR - MATEIXA MIDA QUE ELS ALTRES
+================================================== */
 
-    width:23px;
+.petitExportar {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #5856d6;
+    color: #fff;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
 
-    background:#0646a5;
+.petitExportar:hover {
+    opacity: 0.8;
+}
 
-    color:#fff;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    line-height:1;
-
-    font-size:7px;
-
-    font-weight:700;
-
+.petitExportar:active {
+    transform: scale(0.95);
 }
 
 
-.estrelles{
+/* ==================================================
+   ESPAI REDUÏT PER A PÀGINES
+================================================== */
 
-    font-size:4px;
-
-    letter-spacing:-1px;
-
-    white-space:nowrap;
-
-    margin-bottom:2px;
-
+.paginaCompacta .app {
+    padding-top: 8px;
 }
 
+.paginaCompacta h1 {
+    margin: 4px 0 8px;
+    font-size: 24px;
+}
 
-.matriculaLletres{
+.paginaCompacta .targeta {
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
 
-    flex:1;
+.botoTornarCompacte {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px 8px;
+    margin: 0;
+    color: var(--text);
+    border-radius: 10px;
+}
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:
-        0
-        7px;
-
-    font-size:15px;
-
-    font-weight:800;
-
-    letter-spacing:1px;
-
-    white-space:nowrap;
-
+.botoTornarCompacte:hover {
+    background: var(--grisBoton);
 }
 
 
@@ -1150,29 +1310,6 @@ button:active{
         padding:
             4px
             5px;
-
-    }
-
-
-    .matriculaReal{
-
-        height:28px;
-
-        min-width:105px;
-
-    }
-
-
-    .matriculaCAT{
-
-        width:21px;
-
-    }
-
-
-    .matriculaLletres{
-
-        font-size:14px;
 
     }
 

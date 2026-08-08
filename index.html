@@ -38,13 +38,38 @@ class="llistaVehicles">
 </div>
 
 
-<button
-id="botoNouVehicle"
-class="primari">
+<div style="display:flex; gap:10px; margin-top:8px;">
 
-➕ Nou vehicle
+    <button
+        id="botoNouVehicle"
+        class="primari"
+        style="flex:1;">
 
-</button>
+        ➕ Nou vehicle
+
+    </button>
+
+    <button
+        id="botoConfiguracio"
+        class="primari"
+        style="flex:0.5; background:var(--grisBoton); color:var(--text); font-size:20px; padding:14px 10px;"
+        title="Configuració (tema clar/fosc)">
+
+        ⚙️
+
+    </button>
+
+    <button
+        id="botoBackup"
+        class="primari"
+        style="flex:0.5; background:#5856d6; font-size:14px; padding:14px 10px;"
+        title="Fer còpia de seguretat de totes les dades">
+
+        💾 Backup
+
+    </button>
+
+</div>
 
 </div>
 
@@ -104,15 +129,12 @@ placeholder="45">
 id="combustible">
 
 <option value="95">Gasolina 95</option>
-
 <option value="98">Gasolina 98</option>
-
 <option value="Diesel">Dièsel</option>
-
 <option value="GLP">GLP</option>
-
 <option value="GNC">GNC</option>
-
+<option value="E85">E85 (Etanol)</option>
+<option value="Hidrogen">Hidrogen</option>
 <option value="Electric">Elèctric</option>
 
 </select>
@@ -147,6 +169,7 @@ Cancel·lar
 
 <script src="dades.js"></script>
 <script src="app.js"></script>
+<script src="tema.js"></script>
 
 <script>
 

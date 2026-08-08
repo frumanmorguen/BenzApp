@@ -17,11 +17,21 @@
 
 <div class="app">
 
-<button class="botoTornar" onclick="history.back()">
-    ← Tornar
-</button>
+<div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
 
-<h1>📋 Historial</h1>
+    <button
+        onclick="location.href='vehicle.html'"
+        style="background:none; border:none; font-size:28px; cursor:pointer; padding:4px 4px 4px 0; margin:0; color:var(--text); line-height:1;">
+
+        ←
+
+    </button>
+
+    <h1 style="margin:0; font-size:32px; font-weight:700;">
+        📋 Historial
+    </h1>
+
+</div>
 
 <div id="capcaleraVehicle" class="targeta">
 </div>
@@ -56,14 +66,6 @@
 <div id="totals" class="targeta">
 
 </div>
-
-<button
-class="primari"
-onclick="location.href='vehicle.html'">
-
-⬅ Tornar
-
-</button>
 
 </div>
 
@@ -113,6 +115,7 @@ Tancar
 
 <script src="dades.js"></script>
 <script src="historial.js"></script>
+<script src="tema.js"></script>
 
 </body>
 

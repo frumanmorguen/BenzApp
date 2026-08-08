@@ -70,43 +70,13 @@ function carregarTema(){
 
 
 // ==================================================
-// CONFIGURACIÓ
+// CONFIGURACIÓ (ELIMINADA - ara el botó és al HTML)
 // ==================================================
 
-function crearConfiguracio(){
-
-    if(document.getElementById("botoConfiguracio"))
-        return;
-
-    const capcalera =
-    document.querySelector(".app");
-
-    if(!capcalera)
-        return;
-
-    const boto =
-    document.createElement("button");
-
-    boto.id =
-    "botoConfiguracio";
-
-    boto.className =
-    "botoConfiguracio";
-
-    boto.innerHTML =
-    "⚙️";
-
-    boto.title =
-    "Configuració";
-
-    boto.onclick =
-    obrirConfiguracio;
-
-    capcalera.insertBefore(
-        boto,
-        llistaVehicles
-    );
-
+function crearConfiguracio() {
+    // El botó de configuració ara és al HTML
+    // No cal crear-lo
+    return;
 }
 
 
@@ -215,40 +185,159 @@ function obrirConfiguracio(){
 
 
 // ==================================================
-// MATRÍCULA
+// MATRÍCULA EUROPEA - AMB SVG
 // ==================================================
 
-function mostrarMatricula(valor){
+function generarEstrellesCercle() {
+    let estrelles = '';
+    const cx = 12, cy = 12, radi = 8.5;
+    
+    for (let i = 0; i < 12; i++) {
+        const angle = (i / 12) * 2 * Math.PI - Math.PI / 2;
+        const x = cx + radi * Math.cos(angle);
+        const y = cy + radi * Math.sin(angle);
+        
+        const estrella = `
+            <polygon 
+                points="${x},${y-2.5} ${x+0.8},${y-0.8} ${x+2.5},${y-0.8} ${x+1.2},${y+0.3} ${x+1.6},${y+2} ${x},${y+1} ${x-1.6},${y+2} ${x-1.2},${y+0.3} ${x-2.5},${y-0.8} ${x-0.8},${y-0.8}"
+                fill="#ffd700"
+            />
+        `;
+        estrelles += estrella;
+    }
+    return estrelles;
+}
 
-    const text =
-    String(valor || "")
-    .trim()
-    .toUpperCase();
+function mostrarMatricula(valor) {
+    const text = String(valor || "").trim().toUpperCase();
+    const net = text.replace(/[^A-Z0-9]/g, '');
 
-    return `
-
-        <span class="matriculaReal">
-
-            <span class="matriculaCAT">
-
-                <span class="estrelles">
-                    ★★★★★★★★★★★★
-                </span>
-
-                <span>
-                    CAT
-                </span>
-
-            </span>
-
-            <span class="matriculaLletres">
-                ${text}
-            </span>
-
-        </span>
-
+    const estrellesSVG = `
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;display:block;">
+            ${generarEstrellesCercle()}
+        </svg>
     `;
 
+    return `
+        <span class="matriculaReal">
+            <span class="matriculaEU">
+                ${estrellesSVG}
+                <span class="pais">CAT</span>
+            </span>
+            <span class="matriculaLletres">${net}</span>
+        </span>
+    `;
+}
+
+
+// ==================================================
+// EXPORTAR VEHICLE ACTIU A CSV - AMB CONFIRMACIÓ
+// ==================================================
+
+function exportarVehicleActual(id) {
+    // Confirmar abans de descarregar
+    if (!confirm("Vols exportar les dades d'aquest vehicle a CSV?")) {
+        return;
+    }
+
+    // Si ens passen un id, el fem servir. Sino, agafem l'actiu.
+    const vehicleId = id || obtenirVehicleActiu();
+    
+    if (!vehicleId) {
+        alert("No hi ha vehicle seleccionat.");
+        return;
+    }
+
+    const vehicle = obtenirVehicle(vehicleId);
+    
+    if (!vehicle) {
+        alert("Vehicle no trobat.");
+        return;
+    }
+
+    const repostatges = obtenirRepostatgesVehicle(vehicleId);
+
+    if (!repostatges.length) {
+        alert("Aquest vehicle no té repostatges per exportar.");
+        return;
+    }
+
+    // Funció per escapar CSV
+    function escaparCSV(valor) {
+        return '"' + String(valor ?? "").replace(/"/g, '""') + '"';
+    }
+
+    // Funció per calcular consum
+    function calcularConsum(index, llista) {
+        const actual = llista[index];
+        if (!actual || !actual.ple) return "";
+
+        let anteriorPle = -1;
+        for (let i = index - 1; i >= 0; i--) {
+            if (llista[i].ple) {
+                anteriorPle = i;
+                break;
+            }
+        }
+        if (anteriorPle === -1) return "";
+
+        const km = Number(actual.km) - Number(llista[anteriorPle].km);
+        if (km <= 0) return "";
+
+        let litres = 0;
+        for (let i = anteriorPle + 1; i <= index; i++) {
+            litres += Number(llista[i].litres) || 0;
+        }
+        if (litres <= 0) return "";
+
+        return (litres / km * 100).toFixed(2);
+    }
+
+    let files = [];
+
+    // Capçalera
+    files.push([
+        "Vehicle", "Matrícula", "Data", "Hora", "Km",
+        "Litres", "Preu/L", "Cost", "Combustible", "Dipòsit", "Consum L/100 km"
+    ].map(escaparCSV).join(";"));
+
+    const llista = repostatges.slice().sort((a, b) => Number(a.data) - Number(b.data));
+
+    llista.forEach((r, index) => {
+        const d = new Date(Number(r.data));
+        const data = d.toLocaleDateString("ca-ES");
+        const hora = d.toLocaleTimeString("ca-ES", {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+        files.push([
+            vehicle.marca + " " + vehicle.model,
+            vehicle.matricula,
+            data,
+            hora,
+            Number(r.km),
+            Number(r.litres).toFixed(2),
+            Number(r.preu).toFixed(3),
+            Number(r.cost).toFixed(2),
+            r.combustible,
+            r.ple ? "PLE" : "PARCIAL",
+            calcularConsum(index, llista)
+        ].map(escaparCSV).join(";"));
+    });
+
+    const csv = "\ufeff" + files.join("\r\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const avui = new Date().toISOString().substring(0, 10);
+
+    a.href = url;
+    a.download = `BenzApp_${vehicle.matricula}_${avui}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
 }
 
 
@@ -256,16 +345,16 @@ function mostrarMatricula(valor){
 // CARREGAR VEHICLES
 // ==================================================
 
-function carregarVehicles(){
+function carregarVehicles() {
 
-    llistaVehicles.innerHTML="";
+    llistaVehicles.innerHTML = "";
 
     let vehicles =
-    obtenirVehicles();
+        obtenirVehicles();
 
-    if(vehicles.length===0){
+    if (vehicles.length === 0) {
 
-        llistaVehicles.innerHTML=`
+        llistaVehicles.innerHTML = `
 
             <div class="targeta">
 
@@ -288,37 +377,37 @@ function carregarVehicles(){
 
 
     vehicles
-    .slice()
-    .sort((a,b)=>
-        String(a.matricula)
-        .localeCompare(
-            String(b.matricula),
-            "ca"
+        .slice()
+        .sort((a, b) =>
+            String(a.matricula)
+            .localeCompare(
+                String(b.matricula),
+                "ca"
+            )
         )
-    )
-    .forEach(v=>{
+        .forEach(v => {
 
-        let ultim="-";
+            let ultim = "-";
 
-        let r =
-        obtenirRepostatgesVehicle(v.id);
+            let r =
+                obtenirRepostatgesVehicle(v.id);
 
-        if(r.length){
+            if (r.length) {
 
-            const ultimRepostatge =
-            r[r.length-1];
+                const ultimRepostatge =
+                    r[r.length - 1];
 
-            ultim =
-            Number(
-                ultimRepostatge.km
-            ).toLocaleString(
-                "ca-ES"
-            ) + " km";
+                ultim =
+                    Number(
+                        ultimRepostatge.km
+                    ).toLocaleString(
+                        "ca-ES"
+                    ) + " km";
 
-        }
+            }
 
 
-        let html=`
+            let html = `
 
         <div class="targetaVehicle">
 
@@ -363,7 +452,7 @@ function carregarVehicles(){
                 <button
                     class="petitEditar"
                     onclick="editarVehicleUI(${v.id})"
-                    title="Editar">
+                    title="Editar vehicle">
 
                     ✏️
 
@@ -373,9 +462,19 @@ function carregarVehicles(){
                 <button
                     class="petitEliminar"
                     onclick="eliminarVehicleUI(${v.id})"
-                    title="Eliminar">
+                    title="Eliminar vehicle">
 
                     🗑️
+
+                </button>
+
+                <!-- BOTÓ EXPORTAR CSV - AMB TOOLTIP -->
+                <button
+                    class="petitExportar"
+                    onclick="exportarVehicleActual(${v.id})"
+                    title="Exportar dades d'aquest vehicle a CSV">
+
+                    ⬇️
 
                 </button>
 
@@ -385,10 +484,10 @@ function carregarVehicles(){
 
         `;
 
-        llistaVehicles.innerHTML +=
-        html;
+            llistaVehicles.innerHTML +=
+            html;
 
-    });
+        });
 
 }
 
@@ -612,341 +711,44 @@ cancelarVehicle.onclick=function(){
 
 
 // ==================================================
-// EXPORTACIÓ CSV
+// COPIAR SEGURETAT (BACKUP) - AMB CONFIRMACIÓ
 // ==================================================
 
-function escaparCSV(valor){
-
-    return '"' +
-        String(
-            valor ?? ""
-        )
-        .replace(
-            /"/g,
-            '""'
-        ) +
-        '"';
-
-}
-
-
-function calcularConsumExportacio(
-    index,
-    llista
-){
-
-    const actual =
-    llista[index];
-
-    if(
-        !actual ||
-        !actual.ple
-    ){
-
-        return "";
-
-    }
-
-
-    let anteriorPle = -1;
-
-
-    for(
-        let i=index-1;
-        i>=0;
-        i--
-    ){
-
-        if(
-            llista[i].ple
-        ){
-
-            anteriorPle=i;
-
-            break;
-
-        }
-
-    }
-
-
-    if(
-        anteriorPle === -1
-    ){
-
-        return "";
-
-    }
-
-
-    const km =
-    Number(actual.km) -
-    Number(
-        llista[anteriorPle].km
-    );
-
-
-    if(km <= 0)
-        return "";
-
-
-    let litres=0;
-
-
-    for(
-        let i=anteriorPle+1;
-        i<=index;
-        i++
-    ){
-
-        litres +=
-        Number(
-            llista[i].litres
-        ) || 0;
-
-    }
-
-
-    if(litres <= 0)
-        return "";
-
-
-    return (
-        litres /
-        km *
-        100
-    ).toFixed(2);
-
-}
-
-
-function exportarDades(){
-
-    const vehicles =
-    obtenirVehicles();
-
-    const repostatges =
-    obtenirRepostatges();
-
-
-    if(
-        !vehicles.length ||
-        !repostatges.length
-    ){
-
-        alert(
-            "No hi ha dades per exportar."
-        );
-
+function ferBackup() {
+    // Confirmar abans de descarregar
+    if (!confirm("Vols fer una còpia de seguretat de totes les dades?")) {
         return;
-
     }
 
-
-    let files=[];
-
-
-    files.push([
-
-        "Vehicle",
-        "Matrícula",
-        "Data",
-        "Hora",
-        "Km",
-        "Litres",
-        "Preu/L",
-        "Cost",
-        "Combustible",
-        "Dipòsit",
-        "Consum L/100 km"
-
-    ]
-    .map(escaparCSV)
-    .join(";"));
-
-
-    vehicles.forEach(vehicle=>{
-
-        const llista =
-        repostatges
-        .filter(
-            r =>
-            r.vehicleId == vehicle.id
-        )
-        .slice()
-        .sort(
-            (a,b)=>
-            Number(a.data) -
-            Number(b.data)
-        );
-
-
-        llista.forEach(
-            (r,index)=>{
-
-                const d =
-                new Date(
-                    Number(r.data)
-                );
-
-
-                const data =
-                d.toLocaleDateString(
-                    "ca-ES"
-                );
-
-
-                const hora =
-                d.toLocaleTimeString(
-                    "ca-ES",
-                    {
-                        hour:"2-digit",
-                        minute:"2-digit"
-                    }
-                );
-
-
-                files.push([
-
-                    vehicle.marca +
-                    " " +
-                    vehicle.model,
-
-                    vehicle.matricula,
-
-                    data,
-
-                    hora,
-
-                    Number(r.km),
-
-                    Number(r.litres)
-                    .toFixed(2),
-
-                    Number(r.preu)
-                    .toFixed(3),
-
-                    Number(r.cost)
-                    .toFixed(2),
-
-                    r.combustible,
-
-                    r.ple
-                    ? "PLE"
-                    : "PARCIAL",
-
-                    calcularConsumExportacio(
-                        index,
-                        llista
-                    )
-
-                ]
-                .map(escaparCSV)
-                .join(";"));
-
-            }
-        );
-
+    const vehicles = localStorage.getItem('benzapp_vehicles');
+    const repostatges = localStorage.getItem('benzapp_repostatges');
+    const actiu = localStorage.getItem('benzapp_vehicle_actiu');
+    
+    if (!vehicles && !repostatges) {
+        alert("No hi ha dades per guardar.");
+        return;
+    }
+    
+    const backup = {
+        vehicles: vehicles ? JSON.parse(vehicles) : [],
+        repostatges: repostatges ? JSON.parse(repostatges) : [],
+        vehicle_actiu: actiu || null,
+        data: new Date().toISOString(),
+        versio: "1.0"
+    };
+    
+    const blob = new Blob([JSON.stringify(backup, null, 2)], {
+        type: 'application/json'
     });
-
-
-    const csv =
-    "\ufeff" +
-    files.join("\r\n");
-
-
-    const blob =
-    new Blob(
-        [csv],
-        {
-            type:
-            "text/csv;charset=utf-8;"
-        }
-    );
-
-
-    const url =
-    URL.createObjectURL(blob);
-
-
-    const a =
-    document.createElement("a");
-
-
-    const avui =
-    new Date()
-    .toISOString()
-    .substring(0,10);
-
-
-    a.href=url;
-
-    a.download =
-    "BenzApp_" +
-    avui +
-    ".csv";
-
-
+    
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `BenzApp_backup_${new Date().toISOString().substring(0,10)}.json`;
     document.body.appendChild(a);
-
     a.click();
-
     a.remove();
-
     URL.revokeObjectURL(url);
-
-}
-
-
-// ==================================================
-// BOTÓ EXPORTAR
-// ==================================================
-
-function crearBotoExportar(){
-
-    if(
-        document.getElementById(
-            "botoExportar"
-        )
-    )
-        return;
-
-
-    const boto =
-    document.createElement("button");
-
-    boto.id =
-    "botoExportar";
-
-    boto.className =
-    "botoExportar";
-
-    boto.innerHTML =
-    "📥 Exportar dades";
-
-    boto.onclick =
-    exportarDades;
-
-
-    const nouVehicle =
-    document.getElementById(
-        "botoNouVehicle"
-    );
-
-
-    if(
-        nouVehicle &&
-        nouVehicle.parentNode
-    ){
-
-        nouVehicle.parentNode
-        .insertBefore(
-            boto,
-            nouVehicle.nextSibling
-        );
-
-    }
-
 }
 
 
@@ -954,14 +756,22 @@ function crearBotoExportar(){
 // INICI
 // ==================================================
 
-window.onload=function(){
+window.onload = function() {
 
     carregarTema();
 
-    crearConfiguracio();
+    // Configuració
+    const botoConfig = document.getElementById('botoConfiguracio');
+    if (botoConfig) {
+        botoConfig.onclick = obrirConfiguracio;
+    }
 
     carregarVehicles();
 
-    crearBotoExportar();
+    // Backup
+    const botoBackup = document.getElementById('botoBackup');
+    if (botoBackup) {
+        botoBackup.onclick = ferBackup;
+    }
 
 };

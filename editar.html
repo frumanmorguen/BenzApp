@@ -18,7 +18,21 @@ content="width=device-width, initial-scale=1.0">
 
 <div class="app">
 
-<h1>✏️ Editar repostatge</h1>
+<div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+
+    <button
+        onclick="location.href='historial.html'"
+        style="background:none; border:none; font-size:28px; cursor:pointer; padding:4px 4px 4px 0; margin:0; color:var(--text); line-height:1;">
+
+        ←
+
+    </button>
+
+    <h1 style="margin:0; font-size:32px; font-weight:700;">
+        ✏️ Editar repostatge
+    </h1>
+
+</div>
 
 <div id="dadesVehicle"
 class="targeta">
@@ -78,15 +92,12 @@ step="0.01">
 id="combustible">
 
 <option value="95">Gasolina 95</option>
-
 <option value="98">Gasolina 98</option>
-
 <option value="Diesel">Dièsel</option>
-
 <option value="GLP">GLP</option>
-
 <option value="GNC">GNC</option>
-
+<option value="E85">E85 (Etanol)</option>
+<option value="Hidrogen">Hidrogen</option>
 <option value="Electric">Elèctric</option>
 
 </select>
@@ -114,7 +125,8 @@ class="verd">
 
 <button
 class="primari"
-onclick="history.back()">
+onclick="location.href='historial.html'"
+style="width:100%;">
 
 ⬅ Cancel·lar
 
@@ -126,6 +138,7 @@ onclick="history.back()">
 
 <script src="dades.js"></script>
 <script src="editar.js"></script>
+<script src="tema.js"></script>
 
 </body>
 

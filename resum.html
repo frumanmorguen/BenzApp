@@ -18,11 +18,21 @@ content="width=device-width, initial-scale=1.0">
 
 <div class="app">
 
-<button class="botoTornar" onclick="history.back()">
-    ← Tornar
-</button>
+<div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
 
-<h1>📊 Resum</h1>
+    <button
+        onclick="location.href='index.html'"
+        style="background:none; border:none; font-size:28px; cursor:pointer; padding:4px 4px 4px 0; margin:0; color:var(--text); line-height:1;">
+
+        ←
+
+    </button>
+
+    <h1 style="margin:0; font-size:32px; font-weight:700;">
+        📊 Resum
+    </h1>
+
+</div>
 
 <div
 id="dadesVehicle"
@@ -37,36 +47,42 @@ class="targeta">
 </div>
 
 
-<button
-class="primari"
-onclick="location.href='historial.html'">
+<div style="display:flex; gap:10px; flex-wrap:wrap;">
 
-📋 Historial
+    <button
+        class="primari"
+        onclick="location.href='historial.html'"
+        style="flex:1;">
 
-</button>
+        📋 Historial
 
+    </button>
 
-<button
-class="primari"
-onclick="location.href='vehicle.html'">
+    <button
+        class="primari"
+        onclick="location.href='vehicle.html'"
+        style="flex:1;">
 
-⛽ Nou repostatge
+        ⛽ Nou repostatge
 
-</button>
+    </button>
 
+    <button
+        class="primari"
+        onclick="location.href='index.html'"
+        style="flex:1;">
 
-<button
-class="primari"
-onclick="location.href='index.html'">
+        ⬅ Vehicles
 
-⬅ Vehicles
+    </button>
 
-</button>
+</div>
 
 </div>
 
 <script src="dades.js"></script>
 <script src="resum.js"></script>
+<script src="tema.js"></script>
 
 </body>
 

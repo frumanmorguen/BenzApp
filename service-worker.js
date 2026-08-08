@@ -1,6 +1,6 @@
 // service-worker.js
 
-const CACHE = "benzapp-v2";
+const CACHE = "benzapp-v4";
 
 const FITXERS = [
 
@@ -20,11 +20,13 @@ const FITXERS = [
     "./historial.js",
     "./editar.js",
     "./resum.js",
+    "./tema.js",
 
     "./manifest.json",
 
     "./icons/icon-192.png",
-    "./icons/icon-512.png"
+    "./icons/icon-512.png",
+    "./icons/icon-1024.png"
 
 ];
 
