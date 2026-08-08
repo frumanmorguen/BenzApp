@@ -2,184 +2,319 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
 }
+
+
+/* ==================================================
+   COLORS
+================================================== */
+
+:root{
+
+    --fons:#f2f2f7;
+    --targeta:#ffffff;
+    --text:#1c1c1e;
+    --secundari:#6e6e73;
+    --vora:#d2d2d7;
+    --linia:#eeeeee;
+
+    --blau:#0a84ff;
+    --verd:#34c759;
+    --vermell:#ff3b30;
+
+    --grisBoton:#e5e5ea;
+
+    --ombra:
+        rgba(0,0,0,.08);
+
+}
+
+
+html[data-theme="dark"]{
+
+    --fons:#000000;
+    --targeta:#1c1c1e;
+    --text:#f2f2f7;
+    --secundari:#98989f;
+    --vora:#3a3a3c;
+    --linia:#38383a;
+
+    --grisBoton:#3a3a3c;
+
+    --ombra:
+        rgba(0,0,0,.35);
+
+}
+
+
+@media(
+    prefers-color-scheme:dark
+){
+
+    html[data-theme="auto"]{
+
+        --fons:#000000;
+        --targeta:#1c1c1e;
+        --text:#f2f2f7;
+        --secundari:#98989f;
+        --vora:#3a3a3c;
+        --linia:#38383a;
+
+        --grisBoton:#3a3a3c;
+
+        --ombra:
+            rgba(0,0,0,.35);
+
+    }
+
+}
+
+
+/* ==================================================
+   BODY
+================================================== */
 
 body{
-    background:#f2f2f7;
-    color:#1c1c1e;
+
+    background:
+        var(--fons);
+
+    color:
+        var(--text);
+
     min-height:100vh;
+
 }
+
+
+/* ==================================================
+   APP
+================================================== */
 
 .app{
+
     width:100%;
+
     max-width:700px;
+
     margin:auto;
-    padding:18px 12px 100px;
+
+    padding:
+        18px
+        12px
+        100px;
+
 }
+
 
 h1{
+
     text-align:center;
-    margin:15px 0 8px;
+
+    margin:
+        15px
+        0
+        8px;
+
     font-size:32px;
+
     font-weight:700;
+
 }
+
 
 h2{
+
     margin-bottom:6px;
+
 }
+
 
 .subtitol{
+
     text-align:center;
-    color:#6e6e73;
+
+    color:
+        var(--secundari);
+
     margin-bottom:24px;
+
 }
 
 
-/* ==========================
+/* ==================================================
    TARGETES
-========================== */
+================================================== */
 
 .targeta,
 .targetaVehicle{
 
-    background:white;
+    background:
+        var(--targeta);
+
+    color:
+        var(--text);
+
     border-radius:20px;
+
     padding:18px;
+
     margin-bottom:16px;
-    box-shadow:0 8px 24px rgba(0,0,0,.08);
+
+    box-shadow:
+        0 8px 24px
+        var(--ombra);
 
 }
+
 
 .targetaVehicle{
 
     display:flex;
-    justify-content:space-between;
+
+    justify-content:
+        space-between;
+
     align-items:center;
+
     gap:12px;
 
 }
 
 
-/* ==========================
+/* ==================================================
    VEHICLES
-========================== */
+================================================== */
+
+.infoVehicle{
+
+    min-width:0;
+
+    flex:1;
+
+}
+
 
 .nomVehicle{
 
     font-size:20px;
+
     font-weight:700;
 
 }
 
+
 .matricula{
 
-    color:#6e6e73;
     margin-top:4px;
 
 }
 
+
 .ultimKm{
 
     margin-top:8px;
-    color:#0a84ff;
+
+    color:
+        var(--blau);
+
     font-size:14px;
 
 }
 
+
 .accionsVehicle{
 
     display:flex;
+
+    align-items:center;
+
+    justify-content:flex-end;
+
     gap:6px;
+
     flex-shrink:0;
 
 }
 
 
-/* ==========================
-   FORMULARIS
-========================== */
+/* ==================================================
+   BOTÓ CONFIGURACIÓ
+================================================== */
 
-label{
+.botoConfiguracio{
 
-    display:block;
-    margin:13px 0 7px;
-    color:#6e6e73;
-    font-size:15px;
+    width:44px;
 
-}
+    height:44px;
 
-input,
-select{
+    padding:0;
 
-    width:100%;
-    padding:14px;
-    border-radius:13px;
-    border:1px solid #d2d2d7;
-    background:white;
-    font-size:17px;
+    margin:
+        0
+        0
+        15px;
 
-}
+    display:flex;
 
-input[type="checkbox"]{
+    align-items:center;
 
-    width:auto;
+    justify-content:center;
 
-}
+    background:
+        var(--grisBoton);
 
-button{
+    color:
+        var(--text);
 
-    border:0;
-    border-radius:14px;
-    padding:14px 18px;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:600;
-    margin-top:14px;
-
-}
-
-button:active{
-
-    transform:scale(.98);
-
-}
-
-.primari{
-
-    background:#0a84ff;
-    color:white;
-
-}
-
-.verd{
-
-    background:#34c759;
-    color:white;
-
-}
-
-.vermell{
-
-    background:#ff3b30;
-    color:white;
+    font-size:20px;
 
 }
 
 
-/* ==========================
-   BOTONS PETITS
-========================== */
+/* ==================================================
+   BOTONS VEHICLE
+================================================== */
 
+.botoRepostar,
 .petitEditar,
 .petitEliminar{
 
     width:42px;
+
     height:42px;
+
     padding:0;
+
     margin:0;
 
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:12px;
+
 }
+
+
+.botoRepostar{
+
+    background:
+        var(--verd);
+
+    color:#fff;
+
+    font-size:20px;
+
+}
+
 
 .petitEditar{
 
@@ -187,18 +322,186 @@ button:active{
 
 }
 
+
 .petitEliminar{
 
     background:#ffe5e5;
 
 }
 
+
+html[data-theme="dark"]
+.petitEditar{
+
+    background:#17365f;
+
+}
+
+
+html[data-theme="dark"]
+.petitEliminar{
+
+    background:#5b2220;
+
+}
+
+
+@media(
+    prefers-color-scheme:dark
+){
+
+    html[data-theme="auto"]
+    .petitEditar{
+
+        background:#17365f;
+
+    }
+
+
+    html[data-theme="auto"]
+    .petitEliminar{
+
+        background:#5b2220;
+
+    }
+
+}
+
+
+/* ==================================================
+   FORMULARIS
+================================================== */
+
+label{
+
+    display:block;
+
+    margin:
+        13px
+        0
+        7px;
+
+    color:
+        var(--secundari);
+
+    font-size:15px;
+
+}
+
+
+input,
+select{
+
+    width:100%;
+
+    padding:14px;
+
+    border-radius:13px;
+
+    border:
+        1px solid
+        var(--vora);
+
+    background:
+        var(--targeta);
+
+    color:
+        var(--text);
+
+    font-size:17px;
+
+}
+
+
+input[type="checkbox"]{
+
+    width:auto;
+
+}
+
+
+button{
+
+    border:0;
+
+    border-radius:14px;
+
+    padding:
+        14px
+        18px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    margin-top:14px;
+
+}
+
+
+button:active{
+
+    transform:
+        scale(.98);
+
+}
+
+
+.primari{
+
+    background:
+        var(--blau);
+
+    color:#fff;
+
+}
+
+
+.verd{
+
+    background:
+        var(--verd);
+
+    color:#fff;
+
+}
+
+
+.vermell{
+
+    background:
+        var(--vermell);
+
+    color:#fff;
+
+}
+
+
+.botoExportar{
+
+    width:100%;
+
+    background:#5856d6;
+
+    color:#fff;
+
+}
+
+
+/* ==================================================
+   BOTONS FORMULARI
+================================================== */
+
 .filaBotons{
 
     display:flex;
+
     gap:10px;
 
 }
+
 
 .filaBotons button{
 
@@ -207,44 +510,57 @@ button:active{
 }
 
 
-/* ==========================
+/* ==================================================
    MODAL
-========================== */
+================================================== */
 
 .modal{
 
     position:fixed;
+
     inset:0;
 
     display:flex;
+
     align-items:center;
+
     justify-content:center;
 
     padding:15px;
 
-    background:rgba(0,0,0,.35);
+    background:
+        rgba(0,0,0,.35);
 
-    backdrop-filter:blur(5px);
+    backdrop-filter:
+        blur(5px);
 
     z-index:100;
 
 }
 
+
 .finestra{
 
     width:100%;
+
     max-width:430px;
 
-    background:white;
+    background:
+        var(--targeta);
+
+    color:
+        var(--text);
 
     border-radius:22px;
 
     padding:22px;
 
     max-height:90vh;
+
     overflow:auto;
 
 }
+
 
 .ocult{
 
@@ -253,24 +569,129 @@ button:active{
 }
 
 
-/* ==========================
+.botoAmplada{
+
+    width:100%;
+
+}
+
+
+/* ==================================================
+   MATRÍCULA ESTIL REAL
+================================================== */
+
+.matriculaReal{
+
+    display:inline-flex;
+
+    align-items:stretch;
+
+    height:30px;
+
+    min-width:112px;
+
+    border:
+        1px solid
+        #777;
+
+    border-radius:3px;
+
+    overflow:hidden;
+
+    background:#fff;
+
+    color:#111;
+
+    box-shadow:
+        0 1px 2px
+        rgba(0,0,0,.2);
+
+}
+
+
+.matriculaCAT{
+
+    width:23px;
+
+    background:#0646a5;
+
+    color:#fff;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    line-height:1;
+
+    font-size:7px;
+
+    font-weight:700;
+
+}
+
+
+.estrelles{
+
+    font-size:4px;
+
+    letter-spacing:-1px;
+
+    white-space:nowrap;
+
+    margin-bottom:2px;
+
+}
+
+
+.matriculaLletres{
+
+    flex:1;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:
+        0
+        7px;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    white-space:nowrap;
+
+}
+
+
+/* ==================================================
    HISTORIAL
-========================== */
+================================================== */
 
 #capcaleraVehicle{
 
-    padding:15px 18px;
+    padding:
+        15px
+        18px;
 
 }
+
 
 #capcaleraVehicle p{
 
-    color:#6e6e73;
+    color:
+        var(--secundari);
 
 }
 
-
-/* Targeta que conté la taula */
 
 .targeta:has(.taulaHistorial){
 
@@ -281,20 +702,18 @@ button:active{
 }
 
 
-/* Taula */
-
 .taulaHistorial{
 
     width:100%;
+
     border-collapse:collapse;
+
     table-layout:fixed;
 
     font-size:13px;
 
 }
 
-
-/* Columnes */
 
 .taulaHistorial th:nth-child(1),
 .taulaHistorial td:nth-child(1){
@@ -303,12 +722,14 @@ button:active{
 
 }
 
+
 .taulaHistorial th:nth-child(2),
 .taulaHistorial td:nth-child(2){
 
     width:19%;
 
 }
+
 
 .taulaHistorial th:nth-child(3),
 .taulaHistorial td:nth-child(3){
@@ -317,6 +738,7 @@ button:active{
 
 }
 
+
 .taulaHistorial th:nth-child(4),
 .taulaHistorial td:nth-child(4){
 
@@ -324,12 +746,14 @@ button:active{
 
 }
 
+
 .taulaHistorial th:nth-child(5),
 .taulaHistorial td:nth-child(5){
 
     width:13%;
 
 }
+
 
 .taulaHistorial th:nth-child(6),
 .taulaHistorial td:nth-child(6){
@@ -339,47 +763,51 @@ button:active{
 }
 
 
-/* Capçalera */
-
 .taulaHistorial th{
 
-    padding:9px 3px;
+    padding:
+        9px
+        3px;
 
-    color:#6e6e73;
+    color:
+        var(--secundari);
 
     font-size:11px;
 
     font-weight:600;
 
-    border-bottom:2px solid #ddd;
+    border-bottom:
+        2px solid
+        var(--vora);
 
     white-space:nowrap;
 
 }
 
-
-/* Files */
 
 .taulaHistorial td{
 
-    padding:10px 3px;
+    padding:
+        10px
+        3px;
 
     text-align:center;
 
-    border-bottom:1px solid #eee;
+    border-bottom:
+        1px solid
+        var(--linia);
 
     white-space:nowrap;
 
 }
 
-
-/* Data en dues línies */
 
 .taulaHistorial td:first-child{
 
     text-align:left;
 
 }
+
 
 .taulaHistorial td:first-child strong{
 
@@ -389,11 +817,13 @@ button:active{
 
 }
 
+
 .taulaHistorial td:first-child small{
 
     display:block;
 
-    color:#8e8e93;
+    color:
+        var(--secundari);
 
     font-size:10px;
 
@@ -402,30 +832,31 @@ button:active{
 }
 
 
-/* Files clicables */
-
 .taulaHistorial tbody tr{
 
     cursor:pointer;
 
 }
 
+
 .taulaHistorial tbody tr:active{
 
-    background:#f2f2f7;
+    background:
+        var(--grisBoton);
 
 }
 
 
-/* ==========================
+/* ==================================================
    DIPÒSIT
-========================== */
+================================================== */
 
 .dipositPle{
 
     display:inline-flex;
 
     align-items:center;
+
     justify-content:center;
 
     background:#e8f8ed;
@@ -434,13 +865,16 @@ button:active{
 
     border-radius:9px;
 
-    padding:5px 7px;
+    padding:
+        5px
+        7px;
 
     font-size:10px;
 
     font-weight:700;
 
 }
+
 
 .dipositParcial{
 
@@ -451,39 +885,49 @@ button:active{
 }
 
 
-/* ==========================
-   TOTALS HISTORIAL
-========================== */
+/* ==================================================
+   TOTALS
+================================================== */
 
 .resumHistorial{
 
     display:grid;
 
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+        1fr
+        1fr;
 
     gap:0;
 
 }
 
+
 .resumHistorial div{
 
-    padding:12px 4px;
+    padding:
+        12px
+        4px;
 
-    border-bottom:1px solid #eee;
+    border-bottom:
+        1px solid
+        var(--linia);
 
 }
+
 
 .resumHistorial span{
 
     display:block;
 
-    color:#6e6e73;
+    color:
+        var(--secundari);
 
     font-size:13px;
 
     margin-bottom:4px;
 
 }
+
 
 .resumHistorial strong{
 
@@ -492,18 +936,22 @@ button:active{
 }
 
 
-/* ==========================
-   DETALL REPOSTATGE
-========================== */
+/* ==================================================
+   DETALL
+================================================== */
 
 .detallData{
 
     padding-bottom:15px;
+
     margin-bottom:10px;
 
-    border-bottom:1px solid #eee;
+    border-bottom:
+        1px solid
+        var(--linia);
 
 }
+
 
 .detallData strong{
 
@@ -511,15 +959,18 @@ button:active{
 
 }
 
+
 .detallData span{
 
     display:block;
 
-    color:#6e6e73;
+    color:
+        var(--secundari);
 
     margin-top:3px;
 
 }
+
 
 .detallFila{
 
@@ -529,23 +980,31 @@ button:active{
 
     gap:15px;
 
-    padding:10px 0;
+    padding:
+        10px
+        0;
 
-    border-bottom:1px solid #eee;
+    border-bottom:
+        1px solid
+        var(--linia);
 
 }
+
 
 .detallFila span{
 
-    color:#6e6e73;
+    color:
+        var(--secundari);
 
 }
+
 
 .detallFila strong{
 
     text-align:right;
 
 }
+
 
 .detallPle{
 
@@ -566,24 +1025,31 @@ button:active{
 }
 
 
-/* ==========================
+/* ==================================================
    RESUM
-========================== */
+================================================== */
 
 .taulaResum{
 
     width:100%;
+
     border-collapse:collapse;
 
 }
 
+
 .taulaResum td{
 
-    padding:11px 4px;
+    padding:
+        11px
+        4px;
 
-    border-bottom:1px solid #eee;
+    border-bottom:
+        1px solid
+        var(--linia);
 
 }
+
 
 .taulaResum td:last-child{
 
@@ -594,17 +1060,21 @@ button:active{
 }
 
 
-/* ==========================
+/* ==================================================
    MÒBIL
-========================== */
+================================================== */
 
 @media(max-width:600px){
 
     .app{
 
-        padding:12px 8px 90px;
+        padding:
+            12px
+            8px
+            90px;
 
     }
+
 
     h1{
 
@@ -612,11 +1082,27 @@ button:active{
 
     }
 
+
     .targeta{
 
         border-radius:18px;
 
     }
+
+
+    .targetaVehicle{
+
+        padding:14px;
+
+    }
+
+
+    .nomVehicle{
+
+        font-size:18px;
+
+    }
+
 
     .taulaHistorial{
 
@@ -624,35 +1110,69 @@ button:active{
 
     }
 
+
     .taulaHistorial th{
 
         font-size:10px;
 
     }
 
+
     .taulaHistorial td{
 
-        padding:9px 2px;
+        padding:
+            9px
+            2px;
 
     }
 
-    .taulaHistorial td:first-child strong{
+
+    .taulaHistorial
+    td:first-child strong{
 
         font-size:11px;
 
     }
 
-    .taulaHistorial td:first-child small{
+
+    .taulaHistorial
+    td:first-child small{
 
         font-size:9px;
 
     }
 
+
     .dipositPle{
 
         font-size:9px;
 
-        padding:4px 5px;
+        padding:
+            4px
+            5px;
+
+    }
+
+
+    .matriculaReal{
+
+        height:28px;
+
+        min-width:105px;
+
+    }
+
+
+    .matriculaCAT{
+
+        width:21px;
+
+    }
+
+
+    .matriculaLletres{
+
+        font-size:14px;
 
     }
 

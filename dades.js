@@ -1,23 +1,44 @@
 // dades.js
-
-const CLAU_VEHICLES = "benzapp_vehicles";
-const CLAU_REPOSTATGES = "benzapp_repostatges";
-const CLAU_VEHICLE_ACTIU = "benzapp_vehicle_actiu";
+// BenzApp V2
 
 
+const CLAU_VEHICLES =
+"benzapp_vehicles";
 
-// ==========================
+const CLAU_REPOSTATGES =
+"benzapp_repostatges";
+
+const CLAU_VEHICLE_ACTIU =
+"benzapp_vehicle_actiu";
+
+
+// ==================================================
 // VEHICLES
-// ==========================
+// ==================================================
 
 function obtenirVehicles(){
 
-    return JSON.parse(
-        localStorage.getItem(CLAU_VEHICLES)
-    ) || [];
+    try{
+
+        return JSON.parse(
+            localStorage.getItem(
+                CLAU_VEHICLES
+            )
+        ) || [];
+
+    }
+    catch(e){
+
+        console.error(
+            "Error llegint vehicles:",
+            e
+        );
+
+        return [];
+
+    }
 
 }
-
 
 
 function guardarVehicles(llista){
@@ -30,41 +51,60 @@ function guardarVehicles(llista){
 }
 
 
-
 function afegirVehicle(dades){
 
     let vehicles =
     obtenirVehicles();
 
-    dades.id = Date.now();
+    dades.id =
+    Date.now();
 
     vehicles.push(dades);
 
-    guardarVehicles(vehicles);
+    guardarVehicles(
+        vehicles
+    );
+
+    return dades.id;
 
 }
-
 
 
 function obtenirVehicle(id){
 
-    return obtenirVehicles()
-    .find(v => v.id == id);
+    return obterVehiclesIntern()
+    .find(
+        v => v.id == id
+    );
 
 }
 
 
+function obterVehiclesIntern(){
 
-function editarVehicle(id,dades){
+    return obtenirVehicles();
+
+}
+
+
+function editarVehicle(
+    id,
+    dades
+){
 
     let vehicles =
     obtenirVehicles();
 
-    let i =
-    vehicles.findIndex(v=>v.id==id);
 
-    if(i<0)
+    let i =
+    vehicles.findIndex(
+        v => v.id == id
+    );
+
+
+    if(i < 0)
         return false;
+
 
     vehicles[i] = {
 
@@ -74,12 +114,15 @@ function editarVehicle(id,dades){
 
     };
 
-    guardarVehicles(vehicles);
+
+    guardarVehicles(
+        vehicles
+    );
+
 
     return true;
 
 }
-
 
 
 function eliminarVehicle(id){
@@ -87,143 +130,223 @@ function eliminarVehicle(id){
     guardarVehicles(
 
         obtenirVehicles()
-        .filter(v=>v.id!=id)
+        .filter(
+            v => v.id != id
+        )
 
     );
+
 
     guardarRepostatges(
 
         obtenirRepostatges()
-        .filter(r=>r.vehicleId!=id)
+        .filter(
+            r => r.vehicleId != id
+        )
 
     );
+
+
+    if(
+        obtenirVehicleActiu() == id
+    ){
+
+        localStorage.removeItem(
+            CLAU_VEHICLE_ACTIU
+        );
+
+    }
 
 }
 
 
-
-// ==========================
+// ==================================================
 // VEHICLE ACTIU
-// ==========================
+// ==================================================
 
 function guardarVehicleActiu(id){
 
     localStorage.setItem(
         CLAU_VEHICLE_ACTIU,
-        id
+        String(id)
     );
 
 }
-
 
 
 function obtenirVehicleActiu(){
 
-    return Number(
-
-        localStorage.getItem(
-            CLAU_VEHICLE_ACTIU
-        )
-
+    const valor =
+    localStorage.getItem(
+        CLAU_VEHICLE_ACTIU
     );
+
+
+    if(
+        valor === null ||
+        valor === ""
+    ){
+
+        return null;
+
+    }
+
+
+    return Number(valor);
 
 }
 
 
-
-// ==========================
+// ==================================================
 // REPOSTATGES
-// ==========================
+// ==================================================
 
 function obtenirRepostatges(){
 
-    return JSON.parse(
+    try{
 
-        localStorage.getItem(
-            CLAU_REPOSTATGES
-        )
+        return JSON.parse(
 
-    ) || [];
+            localStorage.getItem(
+                CLAU_REPOSTATGES
+            )
+
+        ) || [];
+
+    }
+    catch(e){
+
+        console.error(
+            "Error llegint repostatges:",
+            e
+        );
+
+        return [];
+
+    }
 
 }
 
 
-
-function guardarRepostatges(llista){
+function guardarRepostatges(
+    llista
+){
 
     localStorage.setItem(
 
         CLAU_REPOSTATGES,
 
-        JSON.stringify(llista)
+        JSON.stringify(
+            llista
+        )
 
     );
 
 }
 
 
+function obtenirRepostatgesVehicle(
+    vehicleId
+){
 
-function obtenirRepostatgesVehicle(vehicleId){
+    return obterRepostatgesIntern()
 
-    return obtenirRepostatges()
+    .filter(
+        r =>
+        r.vehicleId == vehicleId
+    )
 
-    .filter(r=>r.vehicleId==vehicleId)
-
-    .sort((a,b)=>a.data-b.data);
-
-}
-
-
-
-function afegirRepostatge(dades){
-
-    let r =
-    obtenirRepostatges();
-
-    dades.id = Date.now();
-
-    r.push(dades);
-
-    guardarRepostatges(r);
+    .sort(
+        (a,b)=>
+        Number(a.data) -
+        Number(b.data)
+    );
 
 }
 
 
+function obterRepostatgesIntern(){
 
-function editarRepostatge(id,dades){
+    return obtenirRepostatges();
 
-    let r =
+}
+
+
+function afegirRepostatge(
+    dades
+){
+
+    let repostatges =
     obtenirRepostatges();
+
+
+    dades.id =
+    Date.now();
+
+
+    repostatges.push(
+        dades
+    );
+
+
+    guardarRepostatges(
+        repostatges
+    );
+
+
+    return dades.id;
+
+}
+
+
+function editarRepostatge(
+    id,
+    dades
+){
+
+    let repostatges =
+    obtenirRepostatges();
+
 
     let i =
-    r.findIndex(x=>x.id==id);
+    repostatges.findIndex(
+        r => r.id == id
+    );
 
-    if(i<0)
+
+    if(i < 0)
         return false;
 
-    r[i] = {
 
-        ...r[i],
+    repostatges[i] = {
+
+        ...repostatges[i],
 
         ...dades
 
     };
 
-    guardarRepostatges(r);
+
+    guardarRepostatges(
+        repostatges
+    );
+
 
     return true;
 
 }
 
 
-
-function eliminarRepostatge(id){
+function eliminarRepostatge(
+    id
+){
 
     guardarRepostatges(
 
         obtenirRepostatges()
-
-        .filter(r=>r.id!=id)
+        .filter(
+            r => r.id != id
+        )
 
     );
 
