@@ -1,6 +1,6 @@
 // service-worker.js
 
-const CACHE = "benzapp-v4";
+const CACHE = "benzapp-v5";
 
 const FITXERS = [
 
