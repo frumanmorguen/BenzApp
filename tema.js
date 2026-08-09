@@ -6,7 +6,7 @@
     document.documentElement.setAttribute('data-theme', tema);
 })();
 
-// Escoltar canvis de tema
+// Escoltar canvis de tema en temps real
 window.addEventListener('storage', function(e) {
     if (e.key === 'benzapp_tema') {
         document.documentElement.setAttribute('data-theme', e.newValue || 'auto');

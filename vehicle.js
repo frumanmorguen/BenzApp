@@ -1,13 +1,24 @@
 // vehicle.js
-// BenzApp V2 - AMB VALIDACIÓ DE KM I EXPORTACIÓ
+// BenzApp V2 - AMB VALIDACIÓ DE KM
 
 const vehicleId = obtenirVehicleActiu();
 
 if (!vehicleId) {
-    location.href = "index.html";
+    // En lloc de redirigir, intentem agafar el primer vehicle disponible
+    const vehicles = obtenirVehicles();
+    if (vehicles.length > 0) {
+        guardarVehicleActiu(vehicles[0].id);
+        location.href = "vehicle.html";
+    } else {
+        location.href = "index.html";
+    }
 }
 
 const vehicle = obtenirVehicle(vehicleId);
+
+if (!vehicle) {
+    location.href = "index.html";
+}
 
 const dadesVehicle = document.getElementById("dadesVehicle");
 

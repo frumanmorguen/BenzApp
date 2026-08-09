@@ -70,15 +70,8 @@ function carregarTema(){
 
 
 // ==================================================
-// CONFIGURACIÓ (ELIMINADA - ara el botó és al HTML)
+// CONFIGURACIÓ
 // ==================================================
-
-function crearConfiguracio() {
-    // El botó de configuració ara és al HTML
-    // No cal crear-lo
-    return;
-}
-
 
 function obrirConfiguracio(){
 
